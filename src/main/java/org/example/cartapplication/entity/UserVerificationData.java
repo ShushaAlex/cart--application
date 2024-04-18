@@ -1,10 +1,9 @@
 package org.example.cartapplication.entity;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
+import jakarta.persistence.MapsId;
 import jakarta.persistence.OneToOne;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,10 +14,10 @@ import lombok.NoArgsConstructor;
 public class UserVerificationData {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long userId;
 
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "userVerificationData")
+    @OneToOne(fetch = FetchType.LAZY)
+    @MapsId
     private User user;
 
     private String photo;

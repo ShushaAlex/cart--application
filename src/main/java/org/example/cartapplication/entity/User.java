@@ -2,6 +2,7 @@ package org.example.cartapplication.entity;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -10,7 +11,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MapsId;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
@@ -50,7 +50,7 @@ public class User {
     @Column(unique = true, nullable = false)
     private String email;
 
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @OneToOne(fetch = FetchType.LAZY, optional = false, mappedBy = "user")
     @MapsId
     private Basket basket;
 
@@ -58,12 +58,12 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Order> orders = new HashSet<>();
 
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
-    @MapsId
+    @OneToOne(fetch = FetchType.LAZY, optional = false, mappedBy = "user")
     private UserVerificationData userVerificationData;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private UserStatus userStatus;
+    @Builder.Default
+    @Embedded
+    private UserStatus userStatus = new UserStatus();
 
     @Builder.Default
     @ManyToMany(cascade = CascadeType.ALL)
